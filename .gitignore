@@ -1,0 +1,7 @@
+*.pyc
+__pycache__
+`.pytest_cache
+venv/
+.idea
+*.sqlite3
+inventory/secrets.py
