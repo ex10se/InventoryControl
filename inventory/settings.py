@@ -52,34 +52,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'inventory.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#         'NAME': 'inventory',
+#         'USER': 'postgres',
+#         'PASSWORD': DB_PASSWORD,
 #     }
 # }
-
-if os.getenv('GAE_APPLICATION', None):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'HOST': '/cloudsql/recme-310114:europe-north1:recmedb',
-            'NAME': 'inventory',
-            'USER': 'postgres',
-            'PASSWORD': DB_PASSWORD,
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'HOST': '127.0.0.1',
-            'PORT': '5678',
-            'NAME': 'inventory',
-            'USER': 'postgres',
-            'PASSWORD': DB_PASSWORD,
-        }
-    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {

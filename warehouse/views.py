@@ -1,11 +1,11 @@
+from django.db.models import F, Sum
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from django.db.models import F, Sum
 from rest_framework.views import APIView
 
-from .serializers import ItemSerializer
 from .models import Item
+from .serializers import ItemSerializer
 
 
 class ItemView(GenericAPIView):
@@ -20,7 +20,7 @@ class ItemView(GenericAPIView):
     def item_update(obj, request, partial):  # patch и put методы
         # либо параметры заданы в URL, либо в теле запроса
         data = request.query_params if request.query_params else request.data
-        instance = Item.objects.get(id=data['id'])
+        instance = Item.objects.get(id=data.get('id'))
         serializer = obj.get_serializer(instance, data=data, partial=partial)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -39,16 +39,25 @@ class ItemView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request, *args, **kwargs):
-        self.item_update(obj=self, request=request, partial=False)
+        try:
+            self.item_update(obj=self, request=request, partial=False)
+        except Item.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, *args, **kwargs):
-        self.item_update(obj=self, request=request, partial=True)
+        try:
+            self.item_update(obj=self, request=request, partial=True)
+        except Item.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, *args, **kwargs):
         data = request.query_params if request.query_params else request.data
-        instance = Item.objects.get(id=data['id'])
+        try:
+            instance = Item.objects.get(id=data.get('id'))
+        except Item.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
