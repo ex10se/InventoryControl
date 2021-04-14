@@ -1,12 +1,11 @@
 import os
 from pathlib import Path
 
-from inventory.secrets import DB_PASSWORD, DJANGO_SECRET_KEY
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = DJANGO_SECRET_KEY
+SECRET_KEY = 'django-insecure-fvo51nf9j_xsfslov$b(w=tvlm8s24invq&+=6vws#^ky#!8!u'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -62,7 +61,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'HOST': '127.0.0.1',
+#         'HOST': '192.168.48.3',
 #         'PORT': '5432',
 #         'NAME': 'inventory',
 #         'USER': 'postgres',
@@ -90,7 +89,9 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 COERCE_DECIMAL_TO_STRING = False  # вывод decimal полей сериализаторов как decimal, а не string
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'

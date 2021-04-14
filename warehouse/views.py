@@ -1,4 +1,5 @@
 from django.db.models import F, Sum
+from django.http import HttpResponseRedirect
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -6,6 +7,10 @@ from rest_framework.views import APIView
 
 from .models import Item
 from .serializers import ItemSerializer
+
+
+def index(request):
+    return HttpResponseRedirect('resources')
 
 
 class ItemView(GenericAPIView):
